@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SS-RP Tools</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background: radial-gradient(circle at top, #f6f6f6 0%, #e9e9e9 45%, #d9d9d9 100%);
+}
+
+/* lebih lembut, tidak terlalu terang */
+.bg-glow{
+    position:absolute;
+    width:620px;
+    height:620px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.28), rgba(255,255,255,0));
+    filter: blur(70px);
+    z-index:0;
+    pointer-events:none;
+}
+
+.container{
+    position:relative;
+    text-align:center;
+    z-index:2;
+    animation: fadeUp .9s ease both;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.brand-wrap{
+    position:relative;
+    display:inline-block;
+    margin-bottom:10px;
+}
+
+/* logo dibuat lebih kelihatan */
+.brand-icon{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:500px;
+    transform:translate(-50%, -50%);
+    opacity: 0.9;;
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+    filter: grayscale(100%) blur(0.4px);
+}
+
+.title{
+    position:relative;
+    z-index:1;
+    font-size:5.3rem;
+    font-weight:900;
+    line-height:1;
+    letter-spacing:-3px;
+
+    /* gradient lebih gelap dan lembut */
+    background: linear-gradient(90deg, #111111 0%, #7a7a7a 50%, #111111 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    text-shadow:0 4px 16px rgba(0,0,0,.07);
+}
+
+.subtitle{
+    margin-top:8px;
+    font-size:1.1rem;
+    font-weight:700;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+
+    background: linear-gradient(90deg, #111111 0%, #666666 50%, #111111 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.buttons{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    width:330px;
+    height:96px;
+    border:2px solid rgba(0,0,0,.16);
+    border-radius:32px;
+    background:rgba(255,255,255,.28);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:0 10px 24px rgba(0,0,0,.07);
+    font-size:1.35rem;
+    font-weight:800;
+    cursor:pointer;
+    transition:.3s ease;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+}
+
+.btn span{
+    position:relative;
+    z-index:1;
+    background: linear-gradient(90deg, #111111 0%, #6f6f6f 50%, #111111 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.btn:hover{
+    transform:translateY(-8px) scale(1.03);
+    background:rgba(20,20,20,.92);
+    border-color:rgba(255,255,255,.18);
+    box-shadow:0 18px 40px rgba(0,0,0,.22);
+}
+
+.btn:hover span{
+    background: linear-gradient(90deg, #ffffff 0%, #d7d7d7 50%, #ffffff 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+@media (max-width: 768px){
+    .title{
+        font-size:3.1rem;
+    }
+
+    .subtitle{
+        font-size:.95rem;
+    }
+
+    .buttons{
+        margin-top:40px;
+        gap:18px;
+    }
+
+    .btn{
+        width:280px;
+        height:82px;
+        font-size:1.15rem;
+    }
+
+    .brand-icon{
+        width:340px;
+        opacity:0.14;
+    }
+
+    .bg-glow{
+        width:480px;
+        height:480px;
+        filter: blur(55px);
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+
+<div class="container">
+    <div class="brand-wrap">
+        <img src="icon.png" alt="Icon" class="brand-icon">
+        <h1 class="title">SS-RP TOOLS</h1>
+    </div>
+
+    <p class="subtitle">TIGER YEAR CREW</p>
+
+    <div class="buttons">
+<div class="buttons">
+    <a href="parser.html" class="btn">
+        <span>CHATLOG PARSER</span>
+    </a>
+
+    <a href="create-ssrp.html" class="btn">
+        <span>CREATE SS-RP</span>
+    </a>
+</div>
+    </div>
+</div>
+
+</body>
+</html>

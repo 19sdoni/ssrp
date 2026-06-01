@@ -1,0 +1,966 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Create SS-RP</title>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}:root{ --bg1:#050505; --bg2:#0a0a0a; --card:rgba(255,255,255,.04); --line:rgba(255,255,255,.08); --text:#f2f2f2; --muted:#8a8a8a; }
+
+body{ min-height:100vh; background: radial-gradient(circle at top, rgba(255,255,255,.06), transparent 28%), linear-gradient(180deg, var(--bg2), var(--bg1)); color:var(--text); overflow-x:hidden; }
+
+.bg-glow{ position:fixed; width:700px; height:700px; left:50%; top:6%; transform:translateX(-50%); border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,.05), rgba(255,255,255,0)); filter:blur(80px); pointer-events:none; z-index:0; }
+
+.wrapper{ position:relative; z-index:1; max-width:1280px; margin:0 auto; padding:30px; }
+
+.card{ background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:24px; box-shadow:0 14px 40px rgba(0,0,0,.28); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+
+.header{
+    position:relative;
+    min-height:210px;
+    padding:34px 24px 28px;
+    text-align:center;
+    margin-bottom:26px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.header.card{
+    background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,248,250,.96));
+    border:1px solid rgba(17,24,39,.08);
+    box-shadow:0 10px 30px rgba(15,23,42,.05);
+}
+
+.brand-wrap{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:6px;
+    min-height:112px;
+}
+
+.brand-icon{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:460px;
+    transform:translate(-50%,-54%);
+    opacity:.12;
+    filter:grayscale(100%) blur(.3px);
+    pointer-events:none;
+    user-select:none;
+    z-index:0;
+}
+
+.title{
+    position:relative;
+    z-index:1;
+    font-size:3.2rem;
+    line-height:1;
+    font-weight:900;
+    letter-spacing:-2.6px;
+    background:none;
+    -webkit-background-clip:initial;
+    background-clip:initial;
+    color:#0f172a;
+    -webkit-text-fill-color:initial;
+}
+
+.subtitle{
+    margin-top:2px;
+    font-size:1rem;
+    font-weight:600;
+    color:#9ca3af;
+    letter-spacing:.2px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:18px;
+    padding:11px 20px;
+    border-radius:14px;
+    border:1px solid rgba(17,24,39,.10);
+    text-decoration:none;
+    color:#374151;
+    background:#ffffff;
+    transition:.25s ease;
+    font-weight:600;
+    box-shadow:0 6px 16px rgba(15,23,42,.04);
+}
+
+.back-btn:hover{
+    transform:translateY(-2px);
+    background:#f8fafc;
+    border-color:rgba(17,24,39,.16);
+}
+
+.grid{ display:grid; grid-template-columns:360px 1fr; gap:22px; align-items:start; }
+
+.panel{ padding:18px; }
+
+.section-title{ font-size:1.05rem; font-weight:800; color:#f4f4f4; margin-bottom:14px; letter-spacing:.2px; }
+
+.label{ display:block; margin:14px 0 8px; font-size:.94rem; color:#d0d0d0; font-weight:600; }
+
+input[type="file"], select, textarea{ width:100%; border-radius:14px; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04); color:#f2f2f2; outline:none; padding:12px 14px; transition:.2s ease; }
+
+input[type="file"]:focus, select:focus, textarea:focus{ border-color:rgba(255,255,255,.28); box-shadow:0 0 0 3px rgba(255,255,255,.05); }
+
+textarea{ min-height:250px; resize:vertical; line-height:1.6; }
+
+input::file-selector-button{ border:0; margin-right:12px; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700; background:rgba(255,255,255,.92); color:#111; }
+
+.zoom-row{ display:flex; gap:10px; align-items:center; margin-top:8px; }
+
+.zoom-btn{ width:42px; height:42px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.05); color:#fff; font-size:1.1rem; font-weight:800; cursor:pointer; transition:.2s ease; flex:0 0 auto; }
+
+.zoom-btn:hover{ background:rgba(255,255,255,.1); transform:translateY(-1px); }
+
+input[type="range"]{ width:100%; cursor:pointer; accent-color:#fff; }
+
+.zoom-value{ margin-top:6px; color:#aaa; font-size:.9rem; }
+
+.position-dropdown{
+    position:relative;
+}
+
+.dropdown-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.12);
+    padding:13px 14px;
+    background:rgba(255,255,255,.05);
+    color:#f2f2f2;
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.dropdown-btn:hover{
+    background:rgba(255,255,255,.08);
+    border-color:rgba(255,255,255,.2);
+}
+
+.dropdown-btn:focus{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(255,255,255,.06);
+    border-color:rgba(255,255,255,.28);
+}
+
+.dropdown-caret{
+    color:#cfcfcf;
+    font-size:.95rem;
+    line-height:1;
+    transition:transform .2s ease;
+}
+
+.position-dropdown.open .dropdown-caret{
+    transform:rotate(180deg);
+}
+
+.dropdown-menu{
+    position:absolute;
+    left:0;
+    right:0;
+    top:calc(100% + 10px);
+    z-index:20;
+    padding:8px;
+    border-radius:18px;
+    background:rgba(20,20,20,.98);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 16px 40px rgba(0,0,0,.38);
+    display:none;
+}
+
+.position-dropdown.open .dropdown-menu{
+    display:grid;
+    gap:6px;
+}
+
+.dropdown-item{
+    width:100%;
+    text-align:left;
+    border:0;
+    border-radius:12px;
+    padding:12px 14px;
+    background:transparent;
+    color:#e8e8e8;
+    font-size:.98rem;
+    font-weight:650;
+    cursor:pointer;
+    transition:.18s ease;
+}
+
+.dropdown-item:hover{
+    background:rgba(255,255,255,.08);
+}
+
+.dropdown-item.active{
+    background:linear-gradient(180deg, rgba(148,148,148,.35), rgba(110,110,110,.22));
+    color:#fff;
+}
+
+.hidden-select{
+    position:absolute;
+    left:-9999px;
+    width:1px;
+    height:1px;
+    opacity:0;
+    pointer-events:none;
+}
+
+.custom-position-controls{
+    margin-top:12px;
+    padding:14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    display:grid;
+    gap:12px;
+}
+
+.pos-control{
+    display:grid;
+    gap:8px;
+}
+
+.pos-control-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    font-size:.88rem;
+    color:#d7d7d7;
+    font-weight:700;
+}
+
+.pos-value{
+    color:#9f9f9f;
+    font-variant-numeric:tabular-nums;
+}
+
+.custom-position-controls input[type="range"]{
+    width:100%;
+    accent-color:#fff;
+}
+
+.actions{ display:flex; gap:12px; margin-top:16px; flex-wrap:wrap; }
+
+.btn{ flex:1 1 140px; min-width:140px; border-radius:16px; border:1px solid rgba(255,255,255,.14); padding:12px 16px; font-weight:800; cursor:pointer; transition:.25s ease; background:rgba(255,255,255,.04); color:#f3f3f3; }
+
+.btn:hover{ transform:translateY(-2px); background:rgba(255,255,255,.09); }
+
+.btn.primary{
+    background:#ffffff;
+    color:#111827;
+    border-color:rgba(17,24,39,.14);
+    box-shadow:none;
+}
+
+.btn.primary:hover{
+    background:#f8fafc;
+}
+
+.helper{ margin-top:10px; font-size:.86rem; color:#8f8f8f; line-height:1.5; }
+
+.preview-panel{ padding:18px; min-height:760px; }
+
+.preview{ position:relative; width:800px; height:600px; margin:auto; overflow:hidden; border-radius:12px; background:#000; border:1px solid rgba(255,255,255,.08); touch-action:none; }
+
+.preview canvas{ display:block; width:100%; height:100%; }
+
+.preview-placeholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#666; font-size:1.05rem; text-align:center; padding:20px; z-index:2; pointer-events:none; }
+
+@media (max-width: 980px){ .grid{ grid-template-columns:1fr; } .preview-panel{ min-height:auto; } .preview{ width:100%; max-width:800px; height:560px; } .title{ font-size:2.35rem; } .brand-icon{ width:300px; } } 
+/* Light mode overrides */
+:root{
+    --bg1:#ffffff;
+    --bg2:#f3f4f6;
+    --card:rgba(255,255,255,.92);
+    --line:rgba(17,24,39,.12);
+    --text:#111827;
+    --muted:#6b7280;
+}
+
+body{
+    background: linear-gradient(180deg, #ffffff 0%, #f3f4f6 100%);
+    color: var(--text);
+}
+
+.bg-glow{
+    background: radial-gradient(circle, rgba(17,24,39,.06), rgba(17,24,39,0));
+    opacity:.75;
+}
+
+.card{
+    background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(248,250,252,.96));
+    border:1px solid rgba(17,24,39,.10);
+    box-shadow:0 14px 40px rgba(17,24,39,.08);
+}
+
+.title{
+    background:none;
+    -webkit-background-clip:initial;
+    background-clip:initial;
+    color:#111827;
+    -webkit-text-fill-color:initial;
+}
+
+.subtitle{ color:#6b7280; }
+
+.back-btn{
+    color:#111827;
+    background:#ffffff;
+    border-color:rgba(17,24,39,.12);
+}
+
+.back-btn:hover{
+    background:#f8fafc;
+    border-color:rgba(17,24,39,.18);
+}
+
+.section-title,
+.label{
+    color:#111827;
+}
+
+input[type="file"], select, textarea,
+.dropdown-btn{
+    border:1px solid rgba(17,24,39,.16);
+    background:#ffffff;
+    color:#111827;
+}
+
+input[type="file"]:focus, select:focus, textarea:focus,
+.dropdown-btn:focus{
+    border-color:rgba(17,24,39,.26);
+    box-shadow:0 0 0 3px rgba(17,24,39,.06);
+}
+
+input[type="file"]::file-selector-button{
+    background:#111827;
+    color:#ffffff;
+}
+
+.zoom-btn{
+    border:1px solid rgba(17,24,39,.14);
+    background:#ffffff;
+    color:#111827;
+}
+
+.zoom-btn:hover{
+    background:#f3f4f6;
+}
+
+input[type="range"]{
+    accent-color:#111827;
+}
+
+.zoom-value,
+.helper,
+.pos-value,
+.custom-position-controls,
+.custom-position-controls .pos-control-head{
+    color:#6b7280;
+}
+
+.dropdown-btn:hover{
+    background:#f8fafc;
+    border-color:rgba(17,24,39,.22);
+}
+
+.dropdown-caret{
+    color:#6b7280;
+}
+
+.dropdown-menu{
+    background:rgba(255,255,255,.98);
+    border:1px solid rgba(17,24,39,.10);
+    box-shadow:0 16px 40px rgba(17,24,39,.12);
+}
+
+.dropdown-item{
+    color:#111827;
+}
+
+.dropdown-item:hover{
+    background:rgba(17,24,39,.05);
+}
+
+.dropdown-item.active{
+    background:linear-gradient(180deg, rgba(17,24,39,.08), rgba(17,24,39,.04));
+    color:#111827;
+}
+
+.custom-position-controls{
+    background:#f8fafc;
+    border:1px solid rgba(17,24,39,.08);
+}
+
+.preview{
+    background:#ffffff;
+    border:1px solid rgba(17,24,39,.10);
+}
+
+.preview-placeholder{
+    color:#9ca3af;
+}
+
+.btn{
+    border:1px solid rgba(17,24,39,.14);
+    background:#ffffff;
+    color:#111827;
+}
+
+.btn:hover{
+    background:#f8fafc;
+}
+
+.btn.primary{
+    background:linear-gradient(180deg, #9ca3af, #6b7280);
+    color:#ffffff;
+    border-color:rgba(17,24,39,.10);
+    box-shadow:0 10px 24px rgba(17,24,39,.12);
+}
+
+.btn.primary:hover{
+    background:linear-gradient(180deg, #a8b0bb, #7a8290);
+}
+
+
+</style>
+
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="wrapper">
+    <div class="header card">
+        <div class="brand-wrap">
+            <img src="icon.png" alt="Logo" class="brand-icon">
+            <div class="title">CREATE SS-RP</div>
+        </div>
+        <div class="subtitle">Tools by Tiger Year Crew, feel free to use!</div>
+        <a href="index.html" class="back-btn">← Back to Tools</a>
+    </div><div class="grid">
+    <div class="card panel">
+        <div class="section-title">Create SS-RP</div>
+
+        <label class="label" for="upload">Upload the Screenshot!</label>
+        <input type="file" id="upload" accept="image/*">
+
+        <label class="label">Zoom</label>
+        <div class="zoom-row">
+            <button class="zoom-btn" id="zoomOut" type="button">−</button>
+            <input type="range" id="zoomSlider" min="0.5" max="3" step="0.01" value="1">
+            <button class="zoom-btn" id="zoomIn" type="button">+</button>
+        </div>
+        <div class="zoom-value" id="zoomValue">100%</div>
+
+        <label class="label" for="position">Chatlog Position</label>
+        <div class="position-dropdown" id="positionDropdown">
+            <button type="button" class="dropdown-btn" id="positionDropdownBtn" aria-haspopup="listbox" aria-expanded="false">
+                <span id="positionDropdownLabel">Top Left</span>
+                <span class="dropdown-caret">▾</span>
+            </button>
+            <div class="dropdown-menu" id="positionDropdownMenu" role="listbox" aria-label="Chatlog Position">
+                <button type="button" class="dropdown-item" data-value="top-left">Top Left</button>
+                <button type="button" class="dropdown-item" data-value="bottom-left">Bottom Left</button>
+                <button type="button" class="dropdown-item" data-value="custom">Custom Position</button>
+            </div>
+        </div>
+
+        <select id="position" class="styled-select hidden-select" aria-hidden="true" tabindex="-1">
+            <option value="top-left">Top Left</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="custom">Custom Position</option>
+        </select>
+
+        <div class="custom-position-controls" id="customPositionControls" hidden>
+            <div class="pos-control">
+                <div class="pos-control-head">
+                    <span>Horizontal</span>
+                    <span class="pos-value" id="posXValue">8%</span>
+                </div>
+                <input type="range" id="positionX" min="0" max="100" value="8">
+            </div>
+            <div class="pos-control">
+                <div class="pos-control-head">
+                    <span>Vertical</span>
+                    <span class="pos-value" id="posYValue">8%</span>
+                </div>
+                <input type="range" id="positionY" min="0" max="100" value="8">
+            </div>
+        </div>
+
+        <label class="label" for="chatlog">Paste Your Chatlog</label>
+        <textarea id="chatlog" placeholder="Rick Morty says..."></textarea>
+
+        <div class="actions">
+            <button class="btn" id="generate" type="button">Gray Effect</button>
+            <button class="btn" id="download" type="button">Download</button>
+        </div>
+
+        <div class="helper">
+            (Note: the image will be exported at 800x600 resolution. For best results, use screenshots with a 4:3 aspect ratio and at least 1600x1200 resolution.)
+        </div>
+    </div>
+
+    <div class="card preview-panel">
+        <div class="preview" id="captureArea">
+            <canvas id="previewCanvas"></canvas>
+            <div class="preview-placeholder" id="placeholder">
+                Nothing to see here :p
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><script>
+const upload = document.getElementById('upload');
+const chatlog = document.getElementById('chatlog');
+const position = document.getElementById('position');
+const positionDropdown = document.getElementById('positionDropdown');
+const positionDropdownBtn = document.getElementById('positionDropdownBtn');
+const positionDropdownLabel = document.getElementById('positionDropdownLabel');
+const positionDropdownMenu = document.getElementById('positionDropdownMenu');
+const customPositionControls = document.getElementById('customPositionControls');
+const positionX = document.getElementById('positionX');
+const positionY = document.getElementById('positionY');
+const posXValue = document.getElementById('posXValue');
+const posYValue = document.getElementById('posYValue');
+const generateBtn = document.getElementById('generate');
+const downloadBtn = document.getElementById('download');
+const canvas = document.getElementById('previewCanvas');
+const ctx = canvas.getContext('2d');
+const placeholder = document.getElementById('placeholder');
+const captureArea = document.getElementById('captureArea');
+const zoomSlider = document.getElementById('zoomSlider');
+const zoomValue = document.getElementById('zoomValue');
+const zoomOutBtn = document.getElementById('zoomOut');
+const zoomInBtn = document.getElementById('zoomIn');
+
+const PREVIEW_WIDTH = 800;
+const PREVIEW_HEIGHT = 600;
+const MIN_ZOOM = 0.5;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.05;
+const EXPORT_SCALE = 1;
+const SUPERSAMPLE_SCALE = 2;
+
+let uploadedImage = null;
+let naturalWidth = 0;
+let naturalHeight = 0;
+let isGrayEffect = false;
+
+let baseScale = 1;
+let zoomScale = 1;
+
+let imgX = 0;
+let imgY = 0;
+
+let dragging = false;
+let startX = 0;
+let startY = 0;
+
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+function updateZoomLabel() {
+    zoomValue.textContent = Math.round(zoomScale * 100) + '%';
+}
+
+function getDisplaySize() {
+    const finalScale = baseScale * zoomScale;
+    return {
+        width: naturalWidth * finalScale,
+        height: naturalHeight * finalScale
+    };
+}
+
+function setupPreviewCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    canvas.style.width = PREVIEW_WIDTH + 'px';
+    canvas.style.height = PREVIEW_HEIGHT + 'px';
+    canvas.width = Math.round(PREVIEW_WIDTH * dpr);
+    canvas.height = Math.round(PREVIEW_HEIGHT * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+}
+
+function drawColoredText(ctx, text, x, y, scaleMultiplier) {
+    const colorRegex = /\{([A-Fa-f0-9]{6})\}/g;
+
+    let currentColor = "#FFFFFF";
+    let currentX = x;
+    let lastIndex = 0;
+    let match;
+
+    while ((match = colorRegex.exec(text)) !== null) {
+
+        const segment = text.substring(lastIndex, match.index);
+
+        if (segment) {
+            ctx.fillStyle = currentColor;
+            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 2 * scaleMultiplier;
+
+            ctx.strokeText(segment, currentX, y);
+            ctx.fillText(segment, currentX, y);
+
+            currentX += ctx.measureText(segment).width;
+        }
+
+        currentColor = "#" + match[1];
+        lastIndex = match.index + match[0].length;
+    }
+
+    const remaining = text.substring(lastIndex);
+
+    if (remaining) {
+        ctx.fillStyle = currentColor;
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 2 * scaleMultiplier;
+
+        ctx.strokeText(remaining, currentX, y);
+        ctx.fillText(remaining, currentX, y);
+    }
+}
+
+function drawScene(targetCtx, width, height, scaleMultiplier = 1) {
+    targetCtx.clearRect(0, 0, width, height);
+    targetCtx.fillStyle = '#000';
+    targetCtx.fillRect(0, 0, width, height);
+
+    if (uploadedImage) {
+        const size = getDisplaySize();
+        targetCtx.save();
+        targetCtx.filter = isGrayEffect ? 'grayscale(100%)' : 'none';
+        targetCtx.drawImage(
+            uploadedImage,
+            imgX * scaleMultiplier,
+            imgY * scaleMultiplier,
+            size.width * scaleMultiplier,
+            size.height * scaleMultiplier
+        );
+        targetCtx.restore();
+    }
+
+    const lines = chatlog.value.split('\n').filter(line => line.trim() !== '');
+    if (lines.length === 0) return;
+
+    let x = 20 * scaleMultiplier;
+    let y = 20 * scaleMultiplier;
+    const lineHeight = 16 * scaleMultiplier;
+
+    if (position.value === 'bottom-left') {
+        const totalHeight = lines.length * lineHeight;
+        y = height - totalHeight - (10 * scaleMultiplier);
+    }
+
+    if (position.value === 'custom') {
+        x = (Number(positionX.value) / 100) * width;
+        y = (Number(positionY.value) / 100) * height;
+    }
+
+    targetCtx.font = `bold ${12 * scaleMultiplier}px Arial`;
+    targetCtx.textBaseline = 'top';
+    targetCtx.lineJoin = 'round';
+    targetCtx.miterLimit = 2;
+    targetCtx.imageSmoothingEnabled = false;
+
+    lines.forEach(line => {
+
+    const isRP = line.trim().startsWith('*');
+
+    if (isRP && !/\{[A-Fa-f0-9]{6}\}/.test(line)) {
+        targetCtx.fillStyle = '#c2a2da';
+        targetCtx.strokeStyle = '#000000';
+        targetCtx.lineWidth = 2 * scaleMultiplier;
+
+        targetCtx.strokeText(line, x, y);
+        targetCtx.fillText(line, x, y);
+    } else {
+        drawColoredText(
+            targetCtx,
+            line,
+            x,
+            y,
+            scaleMultiplier
+        );
+    }
+
+    y += lineHeight;
+});
+
+}
+
+function renderCanvas() {
+    drawScene(ctx, PREVIEW_WIDTH, PREVIEW_HEIGHT, 1);
+    placeholder.style.display = uploadedImage ? 'none' : 'flex';
+}
+
+function updateImageTransform() {
+    if (!naturalWidth || !naturalHeight) return;
+
+    const size = getDisplaySize();
+    const displayWidth = size.width;
+    const displayHeight = size.height;
+
+    if (displayWidth <= PREVIEW_WIDTH) {
+        imgX = (PREVIEW_WIDTH - displayWidth) / 2;
+    } else {
+        imgX = clamp(imgX, PREVIEW_WIDTH - displayWidth, 0);
+    }
+
+    if (displayHeight <= PREVIEW_HEIGHT) {
+        imgY = (PREVIEW_HEIGHT - displayHeight) / 2;
+    } else {
+        imgY = clamp(imgY, PREVIEW_HEIGHT - displayHeight, 0);
+    }
+
+    renderCanvas();
+}
+
+function centerImage() {
+    if (!naturalWidth || !naturalHeight) return;
+    const size = getDisplaySize();
+    imgX = (PREVIEW_WIDTH - size.width) / 2;
+    imgY = (PREVIEW_HEIGHT - size.height) / 2;
+    updateImageTransform();
+}
+
+function setZoom(newZoom, preserveCenter = true) {
+    if (!naturalWidth || !naturalHeight) return;
+
+    const oldSize = getDisplaySize();
+    const oldCenterX = imgX + oldSize.width / 2;
+    const oldCenterY = imgY + oldSize.height / 2;
+
+    zoomScale = clamp(newZoom, MIN_ZOOM, MAX_ZOOM);
+    zoomSlider.value = zoomScale.toFixed(2);
+    updateZoomLabel();
+
+    const newSize = getDisplaySize();
+
+    if (preserveCenter) {
+        imgX = oldCenterX - newSize.width / 2;
+        imgY = oldCenterY - newSize.height / 2;
+    }
+
+    updateImageTransform();
+}
+
+upload.addEventListener('change', function () {
+    const file = this.files && this.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+        uploadedImage = new Image();
+        uploadedImage.onload = () => {
+            naturalWidth = uploadedImage.naturalWidth;
+            naturalHeight = uploadedImage.naturalHeight;
+
+            const ratioX = PREVIEW_WIDTH / naturalWidth;
+            const ratioY = PREVIEW_HEIGHT / naturalHeight;
+            baseScale = Math.max(ratioX, ratioY);
+
+            zoomScale = 1;
+            zoomSlider.value = '1';
+            isGrayEffect = false;
+            updateGrayButtonLabel();
+            updateZoomLabel();
+            centerImage();
+        };
+        uploadedImage.src = e.target.result;
+    };
+
+    reader.readAsDataURL(file);
+});
+
+canvas.addEventListener('pointerdown', (e) => {
+    if (!uploadedImage) return;
+    dragging = true;
+    startX = e.clientX - imgX;
+    startY = e.clientY - imgY;
+    canvas.setPointerCapture(e.pointerId);
+    canvas.style.cursor = 'grabbing';
+});
+
+canvas.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    imgX = e.clientX - startX;
+    imgY = e.clientY - startY;
+    updateImageTransform();
+});
+
+canvas.addEventListener('pointerup', () => {
+    dragging = false;
+    canvas.style.cursor = 'default';
+});
+
+canvas.addEventListener('pointercancel', () => {
+    dragging = false;
+    canvas.style.cursor = 'default';
+});
+
+canvas.addEventListener('dragstart', (e) => e.preventDefault());
+
+zoomSlider.addEventListener('input', () => {
+    setZoom(Number(zoomSlider.value), true);
+});
+
+zoomOutBtn.addEventListener('click', () => {
+    setZoom(zoomScale - ZOOM_STEP, true);
+});
+
+zoomInBtn.addEventListener('click', () => {
+    setZoom(zoomScale + ZOOM_STEP, true);
+});
+
+captureArea.addEventListener('wheel', (e) => {
+    if (!uploadedImage) return;
+    e.preventDefault();
+    setZoom(zoomScale + (e.deltaY < 0 ? 0.05 : -0.05), true);
+}, { passive: false });
+
+function getPositionLabel(value) {
+    switch (value) {
+        case 'bottom-left': return 'Bottom Left';
+        case 'custom': return 'Custom Position';
+        default: return 'Top Left';
+    }
+}
+
+function syncPositionDropdown() {
+    positionDropdownLabel.textContent = getPositionLabel(position.value);
+    positionDropdown.querySelectorAll('.dropdown-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.value === position.value);
+    });
+}
+
+function setPosition(value) {
+    position.value = value;
+    position.dispatchEvent(new Event('change', { bubbles: true }));
+    positionDropdown.classList.remove('open');
+    positionDropdownBtn.setAttribute('aria-expanded', 'false');
+}
+
+function updateCustomPositionUI() {
+    const isCustom = position.value === 'custom';
+    customPositionControls.hidden = !isCustom;
+    posXValue.textContent = `${positionX.value}%`;
+    posYValue.textContent = `${positionY.value}%`;
+    syncPositionDropdown();
+}
+
+positionDropdownBtn.addEventListener('click', () => {
+    const isOpen = positionDropdown.classList.toggle('open');
+    positionDropdownBtn.setAttribute('aria-expanded', String(isOpen));
+});
+
+positionDropdownMenu.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', () => setPosition(item.dataset.value));
+});
+
+document.addEventListener('click', (e) => {
+    if (!positionDropdown.contains(e.target)) {
+        positionDropdown.classList.remove('open');
+        positionDropdownBtn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+position.addEventListener('change', () => {
+    updateCustomPositionUI();
+    renderCanvas();
+});
+chatlog.addEventListener('input', renderCanvas);
+positionX.addEventListener('input', () => {
+    posXValue.textContent = `${positionX.value}%`;
+    renderCanvas();
+});
+positionY.addEventListener('input', () => {
+    posYValue.textContent = `${positionY.value}%`;
+    renderCanvas();
+});
+window.addEventListener('resize', () => {
+    setupPreviewCanvas();
+    renderCanvas();
+});
+
+function updateGrayButtonLabel() {
+    generateBtn.textContent = isGrayEffect ? 'Normal' : 'Gray Effect';
+}
+
+generateBtn.addEventListener('click', () => {
+    isGrayEffect = !isGrayEffect;
+    updateGrayButtonLabel();
+    renderCanvas();
+});
+
+function createExportCanvas() {
+    const exportCanvas = document.createElement('canvas');
+    exportCanvas.width = PREVIEW_WIDTH * EXPORT_SCALE;
+    exportCanvas.height = PREVIEW_HEIGHT * EXPORT_SCALE;
+
+    const exportCtx = exportCanvas.getContext('2d');
+    exportCtx.imageSmoothingEnabled = true;
+    exportCtx.imageSmoothingQuality = 'high';
+
+    if (SUPERSAMPLE_SCALE > 1) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = PREVIEW_WIDTH * SUPERSAMPLE_SCALE;
+        tempCanvas.height = PREVIEW_HEIGHT * SUPERSAMPLE_SCALE;
+
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.imageSmoothingEnabled = true;
+        tempCtx.imageSmoothingQuality = 'high';
+        drawScene(tempCtx, tempCanvas.width, tempCanvas.height, SUPERSAMPLE_SCALE);
+
+        exportCtx.drawImage(
+            tempCanvas,
+            0, 0, tempCanvas.width, tempCanvas.height,
+            0, 0, exportCanvas.width, exportCanvas.height
+        );
+    } else {
+        drawScene(exportCtx, exportCanvas.width, exportCanvas.height, EXPORT_SCALE);
+    }
+
+    return exportCanvas;
+}
+
+downloadBtn.addEventListener('click', () => {
+    if (!uploadedImage) return;
+
+    const exportCanvas = createExportCanvas();
+    const link = document.createElement('a');
+    link.download = 'ss-rp.png';
+    link.href = exportCanvas.toDataURL('image/png');
+    link.click();
+});
+
+updateCustomPositionUI();
+updateGrayButtonLabel();
+setupPreviewCanvas();
+renderCanvas();
+</script></body>
+</html>

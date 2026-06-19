@@ -21,8 +21,8 @@ body{ min-height:100vh; background: radial-gradient(circle at top, rgba(255,255,
 
 .header{
     position:relative;
-    min-height:210px;
-    padding:34px 24px 28px;
+    min-height:120px;
+    padding:18px 24px;
     text-align:center;
     margin-bottom:26px;
     overflow:hidden;
@@ -33,9 +33,24 @@ body{ min-height:100vh; background: radial-gradient(circle at top, rgba(255,255,
 }
 
 .header.card{
-    background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,248,250,.96));
-    border:1px solid rgba(17,24,39,.08);
-    box-shadow:0 10px 30px rgba(15,23,42,.05);
+    background:
+     url("icon.png") center center / 300px no-repeat,
+        linear-gradient(
+            rgba(255,255,255,.95),
+            rgba(255,255,255,.95)
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 24px,
+            rgba(0,0,0,.03) 25px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 24px,
+            rgba(0,0,0,.03) 25px
+        );
 }
 
 .brand-wrap{
@@ -44,18 +59,18 @@ body{ min-height:100vh; background: radial-gradient(circle at top, rgba(255,255,
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    margin-bottom:6px;
-    min-height:112px;
+    margin-bottom:0px;
+    min-height:auto;
 }
 
 .brand-icon{
     position:absolute;
     top:50%;
     left:50%;
-    width:460px;
-    transform:translate(-50%,-54%);
-    opacity:.12;
-    filter:grayscale(100%) blur(.3px);
+    width:367px;
+    transform:translate(-50%,-40%);
+    opacity:.67;
+    filter:blur(1px);
     pointer-events:none;
     user-select:none;
     z-index:0;
@@ -231,8 +246,16 @@ input[type="range"]{ width:100%; cursor:pointer; accent-color:#fff; }
     border-radius:16px;
     background:rgba(255,255,255,.03);
     border:1px solid rgba(255,255,255,.08);
-    display:grid;
     gap:12px;
+    display:none;
+}
+
+.custom-position-controls.is-visible{
+    display:grid;
+}
+
+.custom-position-controls[hidden]{
+    display:none !important;
 }
 
 .pos-control{
@@ -286,7 +309,180 @@ input[type="range"]{ width:100%; cursor:pointer; accent-color:#fff; }
 .preview canvas{ display:block; width:100%; height:100%; }
 
 .preview-placeholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#666; font-size:1.05rem; text-align:center; padding:20px; z-index:2; pointer-events:none; }
+.upload-preview-strip{
+    margin-top:12px;
+    padding:10px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.03);
+}
 
+.upload-preview-strip[hidden]{
+    display:none !important;
+}
+
+.image-strip{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    padding-bottom:4px;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+}
+
+.image-strip::-webkit-scrollbar{
+    height:10px;
+}
+
+.image-strip::-webkit-scrollbar{
+    height:12px;
+}
+
+.image-strip::-webkit-scrollbar-thumb{
+    background:#6b7280;
+    border-radius:999px;
+}
+
+.image-strip::-webkit-scrollbar-thumb:hover{
+    background:#4b5563;
+}
+
+.image-strip::-webkit-scrollbar-track{
+    background:#d1d5db;
+    border-radius:999px;
+}
+
+.thumb-card{
+    position:relative;
+    flex:0 0 128px;
+    scroll-snap-align:start;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.04);
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.thumb-card:hover{
+    transform:translateY(-2px);
+    border-color:rgba(255,255,255,.22);
+}
+
+.thumb-card.active{
+    border-color:rgba(255,255,255,.55);
+    box-shadow:0 0 0 2px rgba(255,255,255,.12) inset;
+}
+
+.thumb-image{
+    width:100%;
+    aspect-ratio:4/3;
+    background:#111;
+    background-size:cover;
+    background-position:center;
+}
+
+.thumb-info{
+    padding:8px 10px 10px;
+    display:grid;
+    gap:4px;
+}
+
+.thumb-name{
+    font-size:.82rem;
+    color:#111827;
+    font-weight:700;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.thumb-sub{
+    font-size:.74rem;
+    color:#4b5563;
+}
+
+.thumb-remove{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:24px;
+    height:24px;
+    border-radius:999px;
+    border:0;
+    background:rgba(0,0,0,.7);
+    color:#fff;
+    font-size:1rem;
+    line-height:1;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2;
+}
+
+.thumb-remove:hover{
+    background:rgba(220,38,38,.95);
+}
+
+
+.preview-nav{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:3;
+    width:44px;
+    height:44px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.10);
+    color:#fff;
+    font-size:1.8rem;
+    font-weight:700;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    transition:.2s ease;
+    user-select:none;
+}
+
+.preview-nav:hover{
+    background:rgba(255,255,255,.18);
+    transform:translateY(-50%) scale(1.04);
+}
+
+.preview-nav:disabled{
+    opacity:.35;
+    cursor:not-allowed;
+    transform:translateY(-50%);
+}
+
+.preview-nav.prev{ left:14px; }
+.preview-nav.next{ right:14px; }
+
+.image-counter{
+    position:absolute;
+    top:14px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:3;
+    display:none;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    font-size:.84rem;
+    font-weight:700;
+    letter-spacing:.2px;
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+
+
+.preview-actions{margin-top:15px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
 @media (max-width: 980px){ .grid{ grid-template-columns:1fr; } .preview-panel{ min-height:auto; } .preview{ width:100%; max-width:800px; height:560px; } .title{ font-size:2.35rem; } .brand-icon{ width:300px; } } 
 /* Light mode overrides */
 :root{
@@ -413,6 +609,10 @@ input[type="range"]{
     border:1px solid rgba(17,24,39,.08);
 }
 
+.custom-position-controls[hidden]{
+    display:none !important;
+}
+
 .preview{
     background:#ffffff;
     border:1px solid rgba(17,24,39,.10);
@@ -452,17 +652,19 @@ input[type="range"]{
 <div class="wrapper">
     <div class="header card">
         <div class="brand-wrap">
-            <img src="icon.png" alt="Logo" class="brand-icon">
             <div class="title">CREATE SS-RP</div>
         </div>
         <div class="subtitle">Tools by Tiger Year Crew, feel free to use!</div>
-        <a href="index.html" class="back-btn">← Back to Tools</a>
+        <a href="index.html" class="back-btn"> Home</a>
     </div><div class="grid">
     <div class="card panel">
         <div class="section-title">Create SS-RP</div>
 
         <label class="label" for="upload">Upload the Screenshot!</label>
-        <input type="file" id="upload" accept="image/*">
+        <input type="file" id="upload" accept="image/*" multiple>
+        <div class="upload-preview-strip" id="uploadPreviewStrip" hidden>
+            <div class="image-strip" id="imageStrip" aria-label="Uploaded image previews"></div>
+        </div>
 
         <label class="label">Zoom</label>
         <div class="zoom-row">
@@ -471,6 +673,14 @@ input[type="range"]{
             <button class="zoom-btn" id="zoomIn" type="button">+</button>
         </div>
         <div class="zoom-value" id="zoomValue">100%</div>
+
+        <label class="label" for="brightnessSlider">Brightness</label>
+        <div class="zoom-row">
+            <button class="zoom-btn" id="brightnessOut" type="button">−</button>
+            <input type="range" id="brightnessSlider" min="50" max="150" step="1" value="100">
+            <button class="zoom-btn" id="brightnessIn" type="button">+</button>
+        </div>
+        <div class="zoom-value" id="brightnessValue">100%</div>
 
         <label class="label" for="position">Chatlog Position</label>
         <div class="position-dropdown" id="positionDropdown">
@@ -506,27 +716,42 @@ input[type="range"]{
                 </div>
                 <input type="range" id="positionY" min="0" max="100" value="8">
             </div>
+            <div class="pos-control">
+                <div class="pos-control-head">
+                    <span>Rotation</span>
+                    <span class="pos-value" id="posRotationValue">0°</span>
+                </div>
+                <input type="range" id="positionRotation" min="-180" max="180" value="0">
+            </div>
         </div>
 
         <label class="label" for="chatlog">Paste Your Chatlog</label>
         <textarea id="chatlog" placeholder="Rick Morty says..."></textarea>
 
         <div class="actions">
-            <button class="btn" id="generate" type="button">Gray Effect</button>
             <button class="btn" id="download" type="button">Download</button>
         </div>
 
         <div class="helper">
-            (Note: the image will be exported at 800x600 resolution. For best results, use screenshots with a 4:3 aspect ratio and at least 1600x1200 resolution.)
+            (Note: the image will be exported at 800x600 resolution. For cleaner results, the downloader renders at a higher internal resolution and then downsamples it. For best results, use screenshots with a 4:3 aspect ratio and a higher-resolution source image.)
         </div>
     </div>
 
     <div class="card preview-panel">
         <div class="preview" id="captureArea">
             <canvas id="previewCanvas"></canvas>
+            <button type="button" class="preview-nav prev" id="prevImage" aria-label="Previous image">‹</button>
+            <button type="button" class="preview-nav next" id="nextImage" aria-label="Next image">›</button>
+            <div class="image-counter" id="imageCounter">0 / 0</div>
             <div class="preview-placeholder" id="placeholder">
                 Nothing to see here :p
             </div>
+        </div>
+        <div class="actions preview-actions">
+            <button class="btn" id="generate" type="button">Gray Effect</button>
+            <button class="btn" id="blurEffect" type="button">Blur Effect</button>
+            <button class="btn" id="cctvEffect" type="button">CCTV Effect</button>
+            <button class="btn" id="flickerEffect" type="button">Flicker Filter</button>
         </div>
     </div>
 </div>
@@ -542,16 +767,30 @@ const positionDropdownMenu = document.getElementById('positionDropdownMenu');
 const customPositionControls = document.getElementById('customPositionControls');
 const positionX = document.getElementById('positionX');
 const positionY = document.getElementById('positionY');
+const positionRotation = document.getElementById('positionRotation');
 const posXValue = document.getElementById('posXValue');
 const posYValue = document.getElementById('posYValue');
+const posRotationValue = document.getElementById('posRotationValue');
 const generateBtn = document.getElementById('generate');
+const blurEffectBtn = document.getElementById('blurEffect');
+const cctvEffectBtn = document.getElementById('cctvEffect');
+const flickerEffectBtn = document.getElementById('flickerEffect');
 const downloadBtn = document.getElementById('download');
 const canvas = document.getElementById('previewCanvas');
 const ctx = canvas.getContext('2d');
 const placeholder = document.getElementById('placeholder');
+const imageStrip = document.getElementById('imageStrip');
+const uploadPreviewStrip = document.getElementById('uploadPreviewStrip');
 const captureArea = document.getElementById('captureArea');
+const prevImageBtn = document.getElementById('prevImage');
+const nextImageBtn = document.getElementById('nextImage');
+const imageCounter = document.getElementById('imageCounter');
 const zoomSlider = document.getElementById('zoomSlider');
 const zoomValue = document.getElementById('zoomValue');
+const brightnessSlider = document.getElementById('brightnessSlider');
+const brightnessValue = document.getElementById('brightnessValue');
+const brightnessOutBtn = document.getElementById('brightnessOut');
+const brightnessInBtn = document.getElementById('brightnessIn');
 const zoomOutBtn = document.getElementById('zoomOut');
 const zoomInBtn = document.getElementById('zoomIn');
 
@@ -561,12 +800,44 @@ const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.05;
 const EXPORT_SCALE = 1;
-const SUPERSAMPLE_SCALE = 2;
+const SUPERSAMPLE_SCALE = 4;
 
+const flickerCanvas = document.createElement('canvas');
+const flickerCtx = flickerCanvas.getContext('2d');
+
+const noiseCanvas = document.createElement('canvas');
+const noiseCtx = noiseCanvas.getContext('2d');
+noiseCanvas.width = PREVIEW_WIDTH;
+noiseCanvas.height = PREVIEW_HEIGHT;
+
+let lastFlickerUpdate = 0;
+
+function generateNoise(){
+    const imgData = noiseCtx.createImageData(noiseCanvas.width, noiseCanvas.height);
+    const data = imgData.data;
+
+    for(let i=0;i<data.length;i+=4){
+        const v = Math.random()*30;
+        data[i]=v;
+        data[i+1]=v;
+        data[i+2]=v;
+        data[i+3]=20;
+    }
+
+    noiseCtx.putImageData(imgData,0,0);
+}
+generateNoise();
+
+let uploadedImages = [];
+let currentImageIndex = 0;
 let uploadedImage = null;
 let naturalWidth = 0;
 let naturalHeight = 0;
 let isGrayEffect = false;
+let isBlurEffect = false;
+let isCctvEffect = false;
+let isFlickerEffect = false;
+let brightness = 100;
 
 let baseScale = 1;
 let zoomScale = 1;
@@ -582,8 +853,168 @@ function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
 }
 
+function safeRevokeUrl(item) {
+    if (item && item.url) {
+        try { URL.revokeObjectURL(item.url); } catch (e) {}
+    }
+}
+
+function clearUploadedImages() {
+    uploadedImages.forEach(safeRevokeUrl);
+    uploadedImages = [];
+    currentImageIndex = 0;
+    uploadedImage = null;
+    naturalWidth = 0;
+    naturalHeight = 0;
+}
+
+function createImageItem(file) {
+    return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const image = new Image();
+        image.onload = () => resolve({
+            id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+            name: file.name || 'image',
+            url,
+            image
+        });
+        image.onerror = () => {
+            safeRevokeUrl({ url });
+            reject(new Error('Failed to load image'));
+        };
+        image.src = url;
+    });
+}
+
+function renderImageStrip() {
+    if (!imageStrip || !uploadPreviewStrip) return;
+
+    uploadPreviewStrip.hidden = uploadedImages.length === 0;
+    imageStrip.innerHTML = '';
+
+    uploadedImages.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'thumb-card' + (index === currentImageIndex ? ' active' : '');
+        card.title = item.name;
+
+        const imageDiv = document.createElement('div');
+        imageDiv.className = 'thumb-image';
+        imageDiv.style.backgroundImage = `url("${item.url}")`;
+
+        const info = document.createElement('div');
+        info.className = 'thumb-info';
+
+        const name = document.createElement('div');
+        name.className = 'thumb-name';
+        name.textContent = item.name;
+
+        const sub = document.createElement('div');
+        sub.className = 'thumb-sub';
+        sub.textContent = `#${index + 1}`;
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'thumb-remove';
+        remove.textContent = '×';
+        remove.setAttribute('aria-label', `Remove ${item.name}`);
+
+        remove.addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeImageAt(index);
+        });
+
+        card.addEventListener('click', () => setCurrentImage(index));
+
+        info.appendChild(name);
+        info.appendChild(sub);
+        card.appendChild(imageDiv);
+        card.appendChild(remove);
+        card.appendChild(info);
+        imageStrip.appendChild(card);
+    });
+}
+
+function removeImageAt(index) {
+    if (index < 0 || index >= uploadedImages.length) return;
+
+    const [removed] = uploadedImages.splice(index, 1);
+    safeRevokeUrl(removed);
+
+    if (!uploadedImages.length) {
+        clearUploadedImages();
+        updateImageNavigator();
+        renderImageStrip();
+        renderCanvas();
+        return;
+    }
+
+    if (currentImageIndex >= uploadedImages.length) {
+        currentImageIndex = uploadedImages.length - 1;
+    } else if (index < currentImageIndex) {
+        currentImageIndex -= 1;
+    }
+
+    setCurrentImage(currentImageIndex);
+    renderImageStrip();
+}
+
+function updateImageNavigator() {
+    const hasImages = uploadedImages.length > 0;
+    const multiple = uploadedImages.length > 1;
+
+    prevImageBtn.style.display = hasImages ? 'inline-flex' : 'none';
+    nextImageBtn.style.display = hasImages ? 'inline-flex' : 'none';
+    imageCounter.style.display = hasImages ? 'block' : 'none';
+
+    prevImageBtn.disabled = !multiple || currentImageIndex <= 0;
+    nextImageBtn.disabled = !multiple || currentImageIndex >= uploadedImages.length - 1;
+
+    imageCounter.textContent = hasImages
+        ? `${currentImageIndex + 1} / ${uploadedImages.length}`
+        : '0 / 0';
+    renderImageStrip();
+}
+
+function setCurrentImage(index) {
+    if (!uploadedImages.length) {
+        uploadedImage = null;
+        naturalWidth = 0;
+        naturalHeight = 0;
+        uploadedImages = [];
+        currentImageIndex = 0;
+        updateImageNavigator();
+        renderCanvas();
+        return;
+    }
+
+    currentImageIndex = clamp(index, 0, uploadedImages.length - 1);
+    const currentItem = uploadedImages[currentImageIndex];
+    uploadedImage = currentItem ? currentItem.image : null;
+    naturalWidth = uploadedImage ? uploadedImage.naturalWidth : 0;
+    naturalHeight = uploadedImage ? uploadedImage.naturalHeight : 0;
+
+    const ratioX = PREVIEW_WIDTH / naturalWidth;
+    const ratioY = PREVIEW_HEIGHT / naturalHeight;
+    baseScale = Math.max(ratioX, ratioY);
+
+    updateImageNavigator();
+    zoomScale = clamp(zoomScale, MIN_ZOOM, MAX_ZOOM);
+    updateImageTransform();
+}
+
 function updateZoomLabel() {
     zoomValue.textContent = Math.round(zoomScale * 100) + '%';
+}
+
+function updateBrightnessLabel() {
+    brightnessValue.textContent = `${brightnessSlider.value}%`;
+}
+
+function setBrightness(newBrightness) {
+    brightness = clamp(newBrightness, 50, 150);
+    brightnessSlider.value = String(brightness);
+    updateBrightnessLabel();
+    renderCanvas();
 }
 
 function getDisplaySize() {
@@ -644,6 +1075,26 @@ function drawColoredText(ctx, text, x, y, scaleMultiplier) {
     }
 }
 
+
+function drawChatlogBlock(targetCtx, lines, x, y, lineHeight, scaleMultiplier) {
+    lines.forEach(line => {
+        const isRP = line.trim().startsWith('*');
+
+        if (isRP && !/\{[A-Fa-f0-9]{6}\}/.test(line)) {
+            targetCtx.fillStyle = '#c2a2da';
+            targetCtx.strokeStyle = '#000000';
+            targetCtx.lineWidth = 2 * scaleMultiplier;
+
+            targetCtx.strokeText(line, x, y);
+            targetCtx.fillText(line, x, y);
+        } else {
+            drawColoredText(targetCtx, line, x, y, scaleMultiplier);
+        }
+
+        y += lineHeight;
+    });
+}
+
 function drawScene(targetCtx, width, height, scaleMultiplier = 1) {
     targetCtx.clearRect(0, 0, width, height);
     targetCtx.fillStyle = '#000';
@@ -652,16 +1103,102 @@ function drawScene(targetCtx, width, height, scaleMultiplier = 1) {
     if (uploadedImage) {
         const size = getDisplaySize();
         targetCtx.save();
-        targetCtx.filter = isGrayEffect ? 'grayscale(100%)' : 'none';
-        targetCtx.drawImage(
-            uploadedImage,
-            imgX * scaleMultiplier,
-            imgY * scaleMultiplier,
-            size.width * scaleMultiplier,
-            size.height * scaleMultiplier
-        );
+        let filterString = `brightness(${brightness}%)`;
+        if(isGrayEffect) filterString += ' grayscale(100%)';
+        if(isBlurEffect) filterString += ' blur(25px)';
+        if(isFlickerEffect){
+
+    targetCtx.imageSmoothingEnabled = false;
+
+}else{
+
+    targetCtx.imageSmoothingEnabled = true;
+}
+        targetCtx.filter = filterString;
+   if(isFlickerEffect){
+
+    const pixelScale = 1;
+
+    flickerCanvas.width = Math.max(1, size.width * pixelScale);
+    flickerCanvas.height = Math.max(1, size.height * pixelScale);
+
+    flickerCtx.clearRect(0,0,flickerCanvas.width,flickerCanvas.height);
+    flickerCtx.imageSmoothingEnabled = false;
+
+    flickerCtx.drawImage(
+        uploadedImage,
+        0,
+        0,
+        flickerCanvas.width,
+        flickerCanvas.height
+    );
+
+    targetCtx.imageSmoothingEnabled = false;
+
+    targetCtx.drawImage(
+        flickerCanvas,
+        imgX * scaleMultiplier,
+        imgY * scaleMultiplier,
+        size.width * scaleMultiplier,
+        size.height * scaleMultiplier
+    );
+
+}else{
+
+    targetCtx.drawImage(
+        uploadedImage,
+        imgX * scaleMultiplier,
+        imgY * scaleMultiplier,
+        size.width * scaleMultiplier,
+        size.height * scaleMultiplier
+    );
+}
+
+    if(isCctvEffect){
+
+        targetCtx.save();
+        targetCtx.globalAlpha = 0.10;
+
+        for(let y=0;y<height;y+=3*scaleMultiplier){
+            targetCtx.fillStyle='#000';
+            targetCtx.fillRect(0,y,width,1*scaleMultiplier);
+        }
+
+        targetCtx.globalAlpha = 0.03;
+
+        for(let i=0;i<600;i++){
+            targetCtx.fillStyle='#FFF';
+            targetCtx.fillRect(Math.random()*width,Math.random()*height,1,1);
+        }
+
+        targetCtx.restore();
+
+        targetCtx.save();
+        targetCtx.fillStyle='rgba(255,255,255,0.85)';
+        targetCtx.font=`bold ${12*scaleMultiplier}px monospace`;
+        targetCtx.fillText('CAM-01 REC',12*scaleMultiplier,height-14*scaleMultiplier);
         targetCtx.restore();
     }
+
+    if(isFlickerEffect){
+
+    if(Date.now() - lastFlickerUpdate > 100){
+        generateNoise();
+        lastFlickerUpdate = Date.now();
+    }
+
+    targetCtx.save();
+    targetCtx.globalAlpha = 0.12;
+    targetCtx.drawImage(noiseCanvas,0,0,width,height);
+
+    targetCtx.globalAlpha = 0.06;
+    for(let y=0;y<height;y+=2){
+        targetCtx.fillStyle='#000';
+        targetCtx.fillRect(0,y,width,1);
+    }
+
+    targetCtx.restore();
+}
 
     const lines = chatlog.value.split('\n').filter(line => line.trim() !== '');
     if (lines.length === 0) return;
@@ -675,41 +1212,31 @@ function drawScene(targetCtx, width, height, scaleMultiplier = 1) {
         y = height - totalHeight - (10 * scaleMultiplier);
     }
 
-    if (position.value === 'custom') {
+    const isCustom = position.value === 'custom';
+    if (isCustom) {
         x = (Number(positionX.value) / 100) * width;
         y = (Number(positionY.value) / 100) * height;
     }
 
     targetCtx.font = `bold ${12 * scaleMultiplier}px Arial`;
-    targetCtx.textBaseline = 'top';
-    targetCtx.lineJoin = 'round';
-    targetCtx.miterLimit = 2;
-    targetCtx.imageSmoothingEnabled = false;
+    targetCtx.lineWidth = 1.15 * scaleMultiplier;
 
-    lines.forEach(line => {
+    targetCtx.shadowColor = "rgba(0,0,0,0.8)";
+    targetCtx.shadowBlur = 2 * scaleMultiplier;
+    targetCtx.shadowOffsetX = 1 * scaleMultiplier;
+    targetCtx.shadowOffsetY = 1 * scaleMultiplier;
 
-    const isRP = line.trim().startsWith('*');
-
-    if (isRP && !/\{[A-Fa-f0-9]{6}\}/.test(line)) {
-        targetCtx.fillStyle = '#c2a2da';
-        targetCtx.strokeStyle = '#000000';
-        targetCtx.lineWidth = 2 * scaleMultiplier;
-
-        targetCtx.strokeText(line, x, y);
-        targetCtx.fillText(line, x, y);
+    if (isCustom) {
+        const rotation = Number(positionRotation.value) * Math.PI / 180;
+        targetCtx.save();
+        targetCtx.translate(x, y);
+        targetCtx.rotate(rotation);
+        drawChatlogBlock(targetCtx, lines, 0, 0, lineHeight, scaleMultiplier);
+        targetCtx.restore();
     } else {
-        drawColoredText(
-            targetCtx,
-            line,
-            x,
-            y,
-            scaleMultiplier
-        );
+        drawChatlogBlock(targetCtx, lines, x, y, lineHeight, scaleMultiplier);
     }
-
-    y += lineHeight;
-});
-
+    }
 }
 
 function renderCanvas() {
@@ -769,32 +1296,49 @@ function setZoom(newZoom, preserveCenter = true) {
 }
 
 upload.addEventListener('change', function () {
-    const file = this.files && this.files[0];
-    if (!file) return;
+    const files = Array.from(this.files || []);
+    if (!files.length) return;
 
-    const reader = new FileReader();
+    const previous = uploadedImages.slice();
+    previous.forEach(safeRevokeUrl);
 
-    reader.onload = (e) => {
-        uploadedImage = new Image();
-        uploadedImage.onload = () => {
-            naturalWidth = uploadedImage.naturalWidth;
-            naturalHeight = uploadedImage.naturalHeight;
+    Promise.all(files.map(createImageItem)).then(items => {
+        uploadedImages = items;
+        currentImageIndex = 0;
+        uploadedImage = uploadedImages[0]?.image || null;
 
-            const ratioX = PREVIEW_WIDTH / naturalWidth;
-            const ratioY = PREVIEW_HEIGHT / naturalHeight;
-            baseScale = Math.max(ratioX, ratioY);
+        if (!uploadedImage) {
+            naturalWidth = 0;
+            naturalHeight = 0;
+            updateImageNavigator();
+            renderCanvas();
+            return;
+        }
 
-            zoomScale = 1;
-            zoomSlider.value = '1';
-            isGrayEffect = false;
-            updateGrayButtonLabel();
-            updateZoomLabel();
-            centerImage();
-        };
-        uploadedImage.src = e.target.result;
-    };
+        naturalWidth = uploadedImage.naturalWidth;
+        naturalHeight = uploadedImage.naturalHeight;
 
-    reader.readAsDataURL(file);
+        const ratioX = PREVIEW_WIDTH / naturalWidth;
+        const ratioY = PREVIEW_HEIGHT / naturalHeight;
+        baseScale = Math.max(ratioX, ratioY);
+
+        zoomScale = 1;
+        zoomSlider.value = '1';
+        brightness = Number(brightnessSlider.value);
+        brightnessSlider.value = String(brightness);
+        isGrayEffect = false;
+        updateGrayButtonLabel();
+        updateZoomLabel();
+        updateBrightnessLabel();
+        updateImageNavigator();
+        renderImageStrip();
+        centerImage();
+    }).catch(() => {
+        clearUploadedImages();
+        updateImageNavigator();
+        renderImageStrip();
+        renderCanvas();
+    });
 });
 
 canvas.addEventListener('pointerdown', (e) => {
@@ -837,6 +1381,14 @@ zoomInBtn.addEventListener('click', () => {
     setZoom(zoomScale + ZOOM_STEP, true);
 });
 
+prevImageBtn.addEventListener('click', () => {
+    if (currentImageIndex > 0) setCurrentImage(currentImageIndex - 1);
+});
+
+nextImageBtn.addEventListener('click', () => {
+    if (currentImageIndex < uploadedImages.length - 1) setCurrentImage(currentImageIndex + 1);
+});
+
 captureArea.addEventListener('wheel', (e) => {
     if (!uploadedImage) return;
     e.preventDefault();
@@ -868,8 +1420,11 @@ function setPosition(value) {
 function updateCustomPositionUI() {
     const isCustom = position.value === 'custom';
     customPositionControls.hidden = !isCustom;
+    customPositionControls.classList.toggle('is-visible', isCustom);
+    customPositionControls.style.display = isCustom ? 'grid' : 'none';
     posXValue.textContent = `${positionX.value}%`;
     posYValue.textContent = `${positionY.value}%`;
+    posRotationValue.textContent = `${positionRotation.value}°`;
     syncPositionDropdown();
 }
 
@@ -902,13 +1457,30 @@ positionY.addEventListener('input', () => {
     posYValue.textContent = `${positionY.value}%`;
     renderCanvas();
 });
+positionRotation.addEventListener('input', () => {
+    posRotationValue.textContent = `${positionRotation.value}°`;
+    renderCanvas();
+});
+brightnessSlider.addEventListener('input', () => {
+    brightness = Number(brightnessSlider.value);
+    updateBrightnessLabel();
+    renderCanvas();
+});
+
+brightnessOutBtn.addEventListener('click', () => {
+    setBrightness(brightness - 5);
+});
+
+brightnessInBtn.addEventListener('click', () => {
+    setBrightness(brightness + 5);
+});
 window.addEventListener('resize', () => {
     setupPreviewCanvas();
     renderCanvas();
 });
 
 function updateGrayButtonLabel() {
-    generateBtn.textContent = isGrayEffect ? 'Normal' : 'Gray Effect';
+    generateBtn.textContent = isGrayEffect ? 'Gray ON' : 'Gray Effect';
 }
 
 generateBtn.addEventListener('click', () => {
@@ -917,33 +1489,48 @@ generateBtn.addEventListener('click', () => {
     renderCanvas();
 });
 
+blurEffectBtn.addEventListener('click', () => {
+    isBlurEffect = !isBlurEffect;
+    blurEffectBtn.textContent = isBlurEffect ? 'Blur ON' : 'Blur Effect';
+    renderCanvas();
+});
+
+cctvEffectBtn.addEventListener('click', () => {
+    isCctvEffect = !isCctvEffect;
+    cctvEffectBtn.textContent = isCctvEffect ? 'CCTV ON' : 'CCTV Effect';
+    renderCanvas();
+});
+
+flickerEffectBtn.addEventListener('click', () => {
+    isFlickerEffect = !isFlickerEffect;
+    flickerEffectBtn.textContent = isFlickerEffect ? 'Flicker ON' : 'Flicker Filter';
+    renderCanvas();
+});
+
 function createExportCanvas() {
     const exportCanvas = document.createElement('canvas');
-    exportCanvas.width = PREVIEW_WIDTH * EXPORT_SCALE;
-    exportCanvas.height = PREVIEW_HEIGHT * EXPORT_SCALE;
+    exportCanvas.width = PREVIEW_WIDTH;
+    exportCanvas.height = PREVIEW_HEIGHT;
 
     const exportCtx = exportCanvas.getContext('2d');
     exportCtx.imageSmoothingEnabled = true;
     exportCtx.imageSmoothingQuality = 'high';
 
-    if (SUPERSAMPLE_SCALE > 1) {
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = PREVIEW_WIDTH * SUPERSAMPLE_SCALE;
-        tempCanvas.height = PREVIEW_HEIGHT * SUPERSAMPLE_SCALE;
+    const tempScale = Math.max(2, SUPERSAMPLE_SCALE);
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = PREVIEW_WIDTH * tempScale;
+    tempCanvas.height = PREVIEW_HEIGHT * tempScale;
 
-        const tempCtx = tempCanvas.getContext('2d');
-        tempCtx.imageSmoothingEnabled = true;
-        tempCtx.imageSmoothingQuality = 'high';
-        drawScene(tempCtx, tempCanvas.width, tempCanvas.height, SUPERSAMPLE_SCALE);
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCtx.imageSmoothingEnabled = true;
+    tempCtx.imageSmoothingQuality = 'high';
+    drawScene(tempCtx, tempCanvas.width, tempCanvas.height, tempScale);
 
-        exportCtx.drawImage(
-            tempCanvas,
-            0, 0, tempCanvas.width, tempCanvas.height,
-            0, 0, exportCanvas.width, exportCanvas.height
-        );
-    } else {
-        drawScene(exportCtx, exportCanvas.width, exportCanvas.height, EXPORT_SCALE);
-    }
+    exportCtx.drawImage(
+        tempCanvas,
+        0, 0, tempCanvas.width, tempCanvas.height,
+        0, 0, exportCanvas.width, exportCanvas.height
+    );
 
     return exportCanvas;
 }
@@ -958,7 +1545,12 @@ downloadBtn.addEventListener('click', () => {
     link.click();
 });
 
+brightness = Number(brightnessSlider.value);
+brightnessSlider.value = String(brightness);
 updateCustomPositionUI();
+updateImageNavigator();
+renderImageStrip();
+updateBrightnessLabel();
 updateGrayButtonLabel();
 setupPreviewCanvas();
 renderCanvas();
